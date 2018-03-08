@@ -1,0 +1,19 @@
+title Sequence for getting post data
+
+User -> Proxy_Server : ajax for /cms/page/1
+Proxy_Server -> User_Interface_App : ajax for /cms/page/1
+User_Interface_App -> Proxy_Server : rest get /pm/post/{id}
+Proxy_Server -> Post_Manager 
+Post_Manager -> Proxy_Server : post json object
+Proxy_Server -> User_Interface_App
+loop foreach content in post.contents
+    User_Interface_App -> User_Interface_App : make link to proxy server for content
+end 
+User_Interface_App -> Proxy_Server : post with content links
+Proxy_Server -> User : post with content links
+loop foreach href in html
+    User -> Proxy_Server : http get /cm/content/{id}
+    Proxy_Server -> Content_Manager
+    Content_Manager -> Proxy_Server : content bytes with content-type
+    Proxy_Server -> User : content bytes with content-type
+end 

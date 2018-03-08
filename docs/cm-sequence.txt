@@ -1,0 +1,34 @@
+title Sequence for creating content
+
+== Temp nodes creating ==
+
+ContentClient -> ContentController : bytes with content-type to /create
+ContentController -> ContentManager : bytes with content-type
+ContentManager -> ContentManager :  create temp content hash
+ContentManager -> TempFileRepository : save file
+TempFileRepository -> ContentManager : path to file /temp/{hash}
+ContentManager -> NodeRepository : create temp content node in db
+NodeRepository -> ContentManager : temp content node
+ContentManager -> ContentController : content hash
+ContentManager -> ContentIdentityResolver : add job for resolving temp hash in queue
+ContentIdentityResolver --> ContentManager
+ContentController -> ContentClient : content hash
+
+== Async temp nodes resolving ==
+
+ContentIdentityResolver -\\ ContentIdentityResolver : start resolving
+loop foreach job in queue
+ContentIdentityResolver -> NodeRepository : find presist node with temp hash
+NodeRepository -> ContentIdentityResolver : presist node with temp hash
+    alt no content found
+        ContentIdentityResolver -> FileRepositoryManager : move file from temp to persist
+        FileRepositoryManager --> ContentIdentityResolver
+        ContentIdentityResolver -> NodeRepository : update content path to /persist/{hash}
+        NodeRepository -> ContentIdentityResolver
+    else content found
+        ContentIdentityResolver -> FileRepositoryManager : remove file from temp
+        FileRepositoryManager --> ContentIdentityResolver
+        ContentIdentityResolver -> NodeRepository : remove temp node
+        NodeRepository -> ContentIdentityResolver
+    end
+end

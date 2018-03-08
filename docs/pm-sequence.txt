@@ -1,0 +1,51 @@
+title Sequence for post manager
+
+== getting current user ==
+PostManager -> UserManager : get current user
+UserManager -> UserManager : get current token\rfrom Authorization header
+UserManager -> UserRepository : get user by token
+UserRepository --> UserManager : user
+UserManager --> PostManager : current user
+
+== creating post ==
+
+UI -> PostController : create new post\rPOST requset to /post
+PostController -> PostManager : create new post
+PostManager -> UserManager : get current user
+UserManager --> PostManager : current user
+PostManager -> PostRepository : create new post for userId
+PostRepository --> PostManager : empty user post
+PostManager --> PostController : empty user post
+PostController --> UI : new ResponseEntity<>(HttpStatus.OK, Post)
+
+== adding content to post ==
+UI -> PostController : add new content to post\rPOST request to /post/{postId}\rMultipartFile in http body
+PostController -> PostManager : tryAddContentToPost(postId, MultipartFile)
+PostManager -> UserManager : get current user
+UserManager --> PostManager : current user
+alt !postId.Equals(currentuser.getPostId())
+PostManager --> PostController : throw new HttpUnauthorizedException()
+PostController --> UI : HttpStatus.UNAUTHORIZED
+else
+PostManager -> ContentManager : createContent(MultipartFile) 
+ContentManager -> ProxyServer : POST requset to /cm/create/\rMultipartFile in body
+ProxyServer --> ContentManager : contentId
+ContentManager --> PostManager : contentId
+PostManager -> PostRepository : getPostById(postid)
+PostRepository --> PostManager : Post
+PostManager -> PostManager : Post.getContents().add(contentId)
+PostManager -> PostRepository : updatePost(Post)
+PostRepository --> PostManager : updatedPost
+PostManager --> PostController : updatedPost
+PostController --> UI : new ResponseEntity<>(HttpStatus.OK, updatedPost)
+end
+
+== Creating new user ==
+UI -> UserController : create new user\rPOST request to \user/r with User in bidy
+userController -> UserManager : createUser(User)
+UserManager -> UserRepositoty : add User
+UserRepository --> UserManager : User with userId
+UserManager -> TokenService : getToken(User)
+TokenService --> UserManager : Token
+UserManager --> UserController : new UserRegistrationDto(User, Token)
+UserController --> UI : new ResponseEntity<>(HttpStatus.OK, UserRegistrationDto)

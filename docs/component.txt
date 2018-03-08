@@ -1,0 +1,16 @@
+[Post Manager]
+[Content Manager]
+[User Interface App]
+database [Postgres] as Postgres1
+database [MongoDB] as MongoDB
+[User Interface App]
+() "REST" as REST1
+() "REST" as REST2
+() "HTTP" as HTTP1
+[User Interface App] --> REST1
+[User Interface App] --> REST2
+REST1 -- [Post Manager]
+REST2 -- [Content Manager]
+HTTP1 -- [User Interface App]
+[Post Manager] -- Postgres1
+[Content Manager] -- MongoDB
