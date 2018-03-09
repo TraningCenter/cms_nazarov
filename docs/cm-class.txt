@@ -1,0 +1,70 @@
+class ContentController {
+    ContentModifyResponse addContent(MultipartFile file)
+    ContentModifyResponse deleteContent(MultipartFile file)
+    byte[] getContent(String name)
+}
+
+ContentController --> ContentManager
+
+interface ContentManager{
+    ContentModifyResponse save(MultipartFile file)
+    ContentModifyResponse delete(String name)
+    ContentResponse getByName(String name)
+}
+
+ContentManager <|-- TwoFileReposContentManager
+
+TwoFileReposContentManager -> Hasher
+TwoFileReposContentManager -> TempContentDataRepository
+TwoFileReposContentManager -> PersistContentDataRepository
+TwoFileReposContentManager -> ContentMetaRepository
+TwoFileReposContentManager --> ContentIdentityResolver
+
+interface Hasher{
+    String hash(byte[] bytes)
+}
+
+interface ContentMetaRepository{
+    ContentMeta findOneById(Long id)
+    ContentMeta findByHashAndTemporary(String hash, Boolean temporary)
+    ContentMeta findByHash(String hash)
+    Integer deleteByHash(String hash)
+    Integer save(ContentMeta meta)
+    ContentMeta update(ContentMeta meta)
+}
+
+interface ContentIdentityResolver {
+    void addToJobQueue(IdentityResolveJob job)
+    void resolveJobsFromQueue() @Scheduled
+}
+
+ContentIdentityResolver--->Hasher
+ContentIdentityResolver--->PersistContentDataRepository
+ContentIdentityResolver--->TempContentDataRepository
+ContentIdentityResolver--->ContentMetaRepository
+
+class IdentityResolveJob{
+    Long contentMetaIdToResolve
+}
+
+class ContentData {
+    byte[] bytes
+    String name
+}
+
+class ContentMeta {
+    Long id
+    String hash
+    String contentType
+    Long size
+    boolean temporary
+}
+
+interface ContentDataRepository{
+    ContentData save(ContentData contentData)
+    ContentData read(String name)
+    ContentData remove(String name)
+}
+
+ContentDataRepository <|-- TempContentDataRepository
+ContentDataRepository <|-- PersistContentDataRepository
