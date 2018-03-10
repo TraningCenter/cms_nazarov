@@ -1,4 +1,4 @@
-package contentmanager.model.service;
+package contentmanager.model.service.contentmanager;
 
 import contentmanager.model.dto.ContentResponse;
 import contentmanager.model.dto.ContentEditResponse;
@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.List;
 
 @Component
 public class TwoFileReposContentManager implements ContentManager {
@@ -89,8 +88,8 @@ public class TwoFileReposContentManager implements ContentManager {
     @Override
     public ContentResponse getByName(String name) {
 
-        ContentMeta contentMetaToUse = contentMetaRepository.findByHashAndTemporaryIsTrue(name)
-                .or(contentMetaRepository.findByHashAndTemporaryIsFalse(name)).orNull();
+        ContentMeta contentMetaToUse = contentMetaRepository.findFirstByHashAndTemporaryIsTrue(name)
+                .or(contentMetaRepository.findFirstByHashAndTemporaryIsFalse(name)).orNull();
 
         if (contentMetaToUse == null)
             return new ContentResponse(false);

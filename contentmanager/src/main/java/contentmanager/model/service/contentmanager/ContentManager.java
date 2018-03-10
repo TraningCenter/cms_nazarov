@@ -1,4 +1,4 @@
-package contentmanager.model.service;
+package contentmanager.model.service.contentmanager;
 
 import contentmanager.model.dto.ContentResponse;
 import contentmanager.model.dto.ContentEditResponse;

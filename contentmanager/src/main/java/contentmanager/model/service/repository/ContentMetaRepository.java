@@ -14,8 +14,8 @@ import java.util.List;
 
 public interface ContentMetaRepository extends CrudRepository<ContentMeta, Long>{
     Optional<ContentMeta> findOneById(Long id);
-    Optional<ContentMeta> findByHashAndTemporaryIsFalse(String hash);
-    Optional<ContentMeta> findByHashAndTemporaryIsTrue(String hash);
+    Optional<ContentMeta> findFirstByHashAndTemporaryIsFalse(String hash);
+    Optional<ContentMeta> findFirstByHashAndTemporaryIsTrue(String hash);
 
     Optional<ContentMeta> findByHash(String hash);
 

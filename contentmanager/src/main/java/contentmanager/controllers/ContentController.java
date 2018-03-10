@@ -2,7 +2,7 @@ package contentmanager.controllers;
 
 import contentmanager.model.dto.ContentResponse;
 import contentmanager.model.dto.ContentEditResponse;
-import contentmanager.model.service.ContentManager;
+import contentmanager.model.service.contentmanager.ContentManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;

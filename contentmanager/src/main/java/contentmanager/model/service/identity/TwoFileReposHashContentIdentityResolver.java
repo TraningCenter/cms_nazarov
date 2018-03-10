@@ -37,7 +37,7 @@ public class TwoFileReposHashContentIdentityResolver implements ContentIdentityR
         log.debug("IdentityResolveJob for contentId={} added to queue", job.getContentId());
     }
 
-    @Scheduled
+    @Scheduled(fixedDelay = 60000)
     public void resolveJobsFromQueue() {
         while (jobs.peek() != null) {
             resolveJob(jobs.poll());
@@ -50,7 +50,7 @@ public class TwoFileReposHashContentIdentityResolver implements ContentIdentityR
             return;
         ContentMeta contentMetaFromJob = contentMetaOptional.get();
 
-        Optional<ContentMeta> contentMetaOptionalFromPersist = contentMetaRepository.findByHashAndTemporaryIsFalse(contentMetaFromJob.getHash());
+        Optional<ContentMeta> contentMetaOptionalFromPersist = contentMetaRepository.findFirstByHashAndTemporaryIsFalse(contentMetaFromJob.getHash());
 
         if (contentMetaOptionalFromPersist.isPresent())
             resolveJobIfExistContentFromPersist(job, contentMetaOptionalFromPersist);
