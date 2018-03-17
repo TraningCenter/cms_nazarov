@@ -1,0 +1,9 @@
+postmanager\model\service\repository\UserRepository.class
+postmanager\model\service\repository\ContentRepository.class
+postmanager\model\entities\Content.class
+postmanager\PostManagerApp.class
+postmanager\controllers\UserController.class
+postmanager\model\entities\Post.class
+postmanager\model\entities\User.class
+postmanager\model\service\repository\PostRepository.class
+postmanager\controllers\PostController.class

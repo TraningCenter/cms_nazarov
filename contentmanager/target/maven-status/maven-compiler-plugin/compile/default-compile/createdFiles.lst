@@ -5,13 +5,13 @@ contentmanager\SchedulingConfiguration.class
 contentmanager\controllers\ContentController.class
 contentmanager\model\service\identity\ContentIdentityResolver.class
 contentmanager\model\service\repository\FileSystemContentDataRepository.class
+contentmanager\model\dto\ContentModifyResponse.class
 contentmanager\model\service\repository\ContentDataRepository.class
+contentmanager\model\service\identity\Sha256Hasher.class
 contentmanager\model\dto\ContentResponse.class
 contentmanager\model\service\contentmanager\ContentManager.class
-contentmanager\model\service\identity\Md5Hasher.class
 contentmanager\model\service\identity\TwoFileReposHashContentIdentityResolver.class
 contentmanager\model\service\identity\Hasher.class
-contentmanager\model\dto\ContentEditResponse.class
 contentmanager\ContentManagerApp.class
 contentmanager\model\entities\ContentMeta.class
 contentmanager\model\service\contentmanager\TwoFileReposContentManager.class

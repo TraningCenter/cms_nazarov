@@ -1,7 +1,7 @@
 package contentmanager.model.service.contentmanager;
 
 import contentmanager.model.dto.ContentResponse;
-import contentmanager.model.dto.ContentEditResponse;
+import contentmanager.model.dto.ContentModifyResponse;
 import contentmanager.model.entities.ContentData;
 import contentmanager.model.entities.ContentMeta;
 import contentmanager.model.service.identity.ContentIdentityResolver;
@@ -40,37 +40,37 @@ public class TwoFileReposContentManager implements ContentManager {
     @Autowired
     ContentIdentityResolver contentIdentityResolver;
 
-    public ContentEditResponse save(MultipartFile file) {
+    public ContentModifyResponse save(MultipartFile file) {
         try {
             String hash = hasher.hash(file.getBytes());
             Boolean tempSaveSuccess = tempContentDataRepository.save(
                     new ContentData(file.getBytes(), hash)).getSuccess();
 
             if (!tempSaveSuccess)
-                return new ContentEditResponse(false);
+                return new ContentModifyResponse(false);
 
             ContentMeta savedContentMeta = contentMetaRepository.save(
                     new ContentMeta(hash, file.getContentType(), file.getSize(), true));
 
             if (savedContentMeta.getId() == null)
-                return new ContentEditResponse(false);
+                return new ContentModifyResponse(false);
 
             log.info("Saved content with {} into temp store", hash);
 
             contentIdentityResolver.addToJobQueue(new IdentityResolveJob(savedContentMeta.getId()));
 
-            return new ContentEditResponse(true, hash);
+            return new ContentModifyResponse(true, hash);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return new ContentEditResponse(false);
+        return new ContentModifyResponse(false);
     }
 
     @Override
     @Transactional
-    public ContentEditResponse delete(String name) {
+    public ContentModifyResponse delete(String name) {
 
         Integer deletedDatasCount = contentMetaRepository.findAllByHash(name)
                 .stream()
@@ -82,7 +82,7 @@ public class TwoFileReposContentManager implements ContentManager {
 
         Integer deletedMetasCount = contentMetaRepository.deleteAllByHash(name);
 
-        return new ContentEditResponse(deletedDatasCount.equals(deletedMetasCount), name);
+        return new ContentModifyResponse(deletedDatasCount.equals(deletedMetasCount), name);
     }
 
     @Override

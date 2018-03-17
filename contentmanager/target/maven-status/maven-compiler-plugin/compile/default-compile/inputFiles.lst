@@ -1,10 +1,10 @@
 C:\source\git\contentmanagementsystem\contentmanager\src\main\java\contentmanager\model\dto\ContentResponse.java
+C:\source\git\contentmanagementsystem\contentmanager\src\main\java\contentmanager\model\dto\ContentModifyResponse.java
 C:\source\git\contentmanagementsystem\contentmanager\src\main\java\contentmanager\SchedulingConfiguration.java
 C:\source\git\contentmanagementsystem\contentmanager\src\main\java\contentmanager\model\service\contentmanager\ContentManager.java
 C:\source\git\contentmanagementsystem\contentmanager\src\main\java\contentmanager\model\service\repository\FileSystemContentDataRepository.java
 C:\source\git\contentmanagementsystem\contentmanager\src\main\java\contentmanager\model\service\contentmanager\TwoFileReposContentManager.java
 C:\source\git\contentmanagementsystem\contentmanager\src\main\java\contentmanager\model\service\repository\ContentDataRepository.java
-C:\source\git\contentmanagementsystem\contentmanager\src\main\java\contentmanager\model\dto\ContentEditResponse.java
 C:\source\git\contentmanagementsystem\contentmanager\src\main\java\contentmanager\model\service\identity\IdentityResolveJob.java
 C:\source\git\contentmanagementsystem\contentmanager\src\main\java\contentmanager\model\service\identity\TwoFileReposHashContentIdentityResolver.java
 C:\source\git\contentmanagementsystem\contentmanager\src\main\java\contentmanager\controllers\ContentController.java
@@ -13,5 +13,5 @@ C:\source\git\contentmanagementsystem\contentmanager\src\main\java\contentmanage
 C:\source\git\contentmanagementsystem\contentmanager\src\main\java\contentmanager\model\entities\ContentMeta.java
 C:\source\git\contentmanagementsystem\contentmanager\src\main\java\contentmanager\model\service\identity\ContentIdentityResolver.java
 C:\source\git\contentmanagementsystem\contentmanager\src\main\java\contentmanager\model\service\repository\ContentMetaRepository.java
-C:\source\git\contentmanagementsystem\contentmanager\src\main\java\contentmanager\model\service\identity\Md5Hasher.java
+C:\source\git\contentmanagementsystem\contentmanager\src\main\java\contentmanager\model\service\identity\Sha256Hasher.java
 C:\source\git\contentmanagementsystem\contentmanager\src\main\java\contentmanager\ContentManagerApp.java

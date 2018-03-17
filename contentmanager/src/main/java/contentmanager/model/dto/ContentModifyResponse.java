@@ -1,17 +1,17 @@
 package contentmanager.model.dto;
 
-public class ContentEditResponse {
+public class ContentModifyResponse {
     private Boolean success;
     private String hash;
 
-    public ContentEditResponse() {
+    public ContentModifyResponse() {
     }
 
-    public ContentEditResponse(Boolean success) {
+    public ContentModifyResponse(Boolean success) {
         this.success = success;
     }
 
-    public ContentEditResponse(Boolean success, String hash) {
+    public ContentModifyResponse(Boolean success, String hash) {
         this.success = success;
         this.hash = hash;
     }

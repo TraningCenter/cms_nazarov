@@ -1,7 +1,7 @@
 package contentmanager.controllers;
 
 import contentmanager.model.dto.ContentResponse;
-import contentmanager.model.dto.ContentEditResponse;
+import contentmanager.model.dto.ContentModifyResponse;
 import contentmanager.model.service.contentmanager.ContentManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -16,7 +16,7 @@ public class ContentController {
     ContentManager contentManager;
 
     @PostMapping
-    public ResponseEntity<ContentEditResponse> addContent(@RequestParam("file") MultipartFile file){
+    public ResponseEntity<ContentModifyResponse> addContent(@RequestParam("file") MultipartFile file){
         try {
              return ResponseEntity.ok(contentManager.save(file));
         }
@@ -27,7 +27,7 @@ public class ContentController {
     }
 
     @DeleteMapping(path="/{name}")
-    public ResponseEntity<ContentEditResponse> deleteContent(@PathVariable String name){
+    public ResponseEntity<ContentModifyResponse> deleteContent(@PathVariable String name){
         try {
              return ResponseEntity.ok(contentManager.delete(name));
         }
