@@ -69,6 +69,7 @@ public class DtoMapper {
         ContentResponse contentResponse = new ContentResponse();
         contentResponse.setContentId(content.getId());
         contentResponse.setHash(content.getHash());
+        contentResponse.setThroughLink(content.getThroughLink());
 
         return contentResponse;
     }
@@ -77,6 +78,7 @@ public class DtoMapper {
         Content content = new Content();
         content.setHash(request.getHash());
         content.setId(request.getContentId());
+        content.setThroughLink(request.getThroughLink());
 
         return content;
     }

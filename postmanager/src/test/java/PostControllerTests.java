@@ -64,12 +64,14 @@ public class PostControllerTests {
         List<ContentSaveRequest> contentSaveRequests = new LinkedList<>();
 
         contentSaveRequests.add(new ContentSaveRequest() {{
-            this.setContentId(1L);
+            this.setContentId(null);
             this.setHash("super-test-hash1");
+            this.setThroughLink(false);
         }});
         contentSaveRequests.add(new ContentSaveRequest() {{
-            this.setContentId(2L);
-            this.setHash("super-test-hash1");
+            this.setContentId(null);
+            this.setHash("super-test-hash2");
+            this.setThroughLink(true);
         }});
         postSaveRequest.setContentSaveRequests(contentSaveRequests);
 
@@ -86,7 +88,7 @@ public class PostControllerTests {
                 .andExpect(jsonPath("$.contents[1].contentId", is(2)))
                 .andExpect(jsonPath("$.contents[1].hash", is("test-hash2")));
 
-        this.mvc.perform(delete("/post/3"));
+        this.mvc.perform(get("/post/3"));
     }
 
     @Test

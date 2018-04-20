@@ -1,9 +1,9 @@
 
-drop table if exists CONTENT;
-create table CONTENT(
+drop table if exists POST;
+create table POST(
   ID bigint auto_increment primary key,
-  HASH varchar(512) not null unique);
+  TITLE varchar(255) not null,
+  USER_ID bigint not null,
+  foreign key(USER_ID) references USER(ID)
+);
 
-INSERT INTO CONTENT (HASH) VALUES ('test-hash1');
-INSERT INTO CONTENT (HASH) VALUES ('test-hash2');
-INSERT INTO CONTENT (HASH) VALUES ('test-hash3');

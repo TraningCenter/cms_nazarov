@@ -5,4 +5,5 @@ import postmanager.model.entities.Content;
 import postmanager.model.entities.User;
 
 public interface ContentRepository extends MybatisRepository<Content, Long> {
+    Content findByHash(String hash);
 }

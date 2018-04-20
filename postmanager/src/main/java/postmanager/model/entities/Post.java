@@ -15,7 +15,7 @@ public class Post extends LongId{
     @ManyToOne
     private User user;
 
-    @ManyToMany
+    @OneToMany
     private List<Content> contents = new LinkedList<>();
 
     public String getTitle() {

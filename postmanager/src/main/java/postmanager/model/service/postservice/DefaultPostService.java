@@ -1,6 +1,8 @@
 package postmanager.model.service.postservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Component;
 import postmanager.model.dto.PostResponse;
 import postmanager.model.dto.PostSaveRequest;
@@ -12,6 +14,7 @@ import postmanager.model.service.repository.ContentRepository;
 import postmanager.model.service.repository.PostRepository;
 import postmanager.model.service.repository.UserRepository;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,20 +38,19 @@ public class DefaultPostService implements PostService {
 
         postToSave.setUser(userRepository.findOne(postToSave.getUser().getId()));
 
-        List<Content> savedContents = postToSave.getContents().
-                stream()
-                .map(this::findByIdOrSaveContent)
-                .collect(Collectors.toList());
-
-        postToSave.setContents(savedContents);
-
         Post savedPost = postRepository.save(postToSave);
+
+        savedPost.setContents(savedPost.getContents().
+                stream()
+                .map(this::findById)
+                .collect(Collectors.toList()));
+        savedPost.getContents().forEach(content -> content.setPost(savedPost));
+        savedPost.setContents(savedPost.getContents().stream().map(contentRepository::save).collect(Collectors.toList()));
 
         PostResponse postResponse = dtoMapper.map(savedPost);
         postResponse.setSuccess(true);
 
         return postResponse;
-
     }
 
     @Override
@@ -67,7 +69,7 @@ public class DefaultPostService implements PostService {
     @Override
     public PostResponse deletePost(Long postId) {
         Post postToDelete = postRepository.findOne(postId);
-        if (postToDelete==null)
+        if (postToDelete == null)
             return new PostResponse(true);
 
         postRepository.delete(postId);
@@ -79,11 +81,16 @@ public class DefaultPostService implements PostService {
         return postResponse;
     }
 
-    private Content findByIdOrSaveContent(Content content) {
-        if (contentRepository.exists(content.getId()))
+    private Content findById(Content content) {
+        if (content.getHash() == null)
+            return null;
+
+        if (content.getId() != null && contentRepository.exists(content.getId()))
             return contentRepository.findOne(content.getId());
+        else if (contentRepository.findByHash(content.getHash()) != null)
+            return contentRepository.findByHash(content.getHash());
         else
-            return contentRepository.save(content);
+            return content;
     }
 
 }

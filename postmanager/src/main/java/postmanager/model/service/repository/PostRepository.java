@@ -5,4 +5,5 @@ import postmanager.model.entities.Post;
 import postmanager.model.entities.User;
 
 public interface PostRepository extends MybatisRepository<Post, Long> {
+
 }

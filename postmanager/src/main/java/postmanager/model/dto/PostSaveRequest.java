@@ -1,5 +1,7 @@
 package postmanager.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -7,6 +9,8 @@ public class PostSaveRequest {
     private String title;
     private Long postId;
     private Long userId;
+
+    @JsonProperty("contents")
     private List<ContentSaveRequest> contentSaveRequests = new LinkedList<>();
 
     public String getTitle() {

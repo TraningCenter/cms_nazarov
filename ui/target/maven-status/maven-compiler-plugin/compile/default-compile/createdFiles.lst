@@ -1,0 +1,3 @@
+ui\view\EditorView.class
+ui\view\HelloBean.class
+ui\service\PostSaveService.class
